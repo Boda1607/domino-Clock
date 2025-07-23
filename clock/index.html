@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domino Clock</title>
+    <!-- Google Fonts import for "BhuTuka Expanded One" -->
+    <link href="https://fonts.googleapis.com/css2?family=BhuTuka+Expanded+One&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="manifest" href="/manifest.json" />
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/1.png" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <style>
+        /* CSS styles for the Domino Clock */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-content: center;
+            /* Using BhuTuka Expanded One as requested, with a fallback */
+            font-family: "BhuTuka Expanded One", cursive;
+            gap: 2rem;
+            background: rgb(19, 19, 19);
+            color: rgba(240, 240, 240);
+        }
+        h1 {
+            font-size: 3rem;
+        }
+        h1 > span {
+            font-size: 1rem;
+            color: rgb(80, 80, 80);
+        }
+        .dominos-container {
+            display: flex;
+            gap: 2em;
+            align-items: center;
+            /* Font size scales with viewport width for responsiveness */
+            font-size: 1vw;
+        }
+        .colon,
+        .ampm {
+            font-size: 5em;
+        }
+        .domino {
+            width: 12em;
+            background: linear-gradient(to bottom right, rgb(39, 39, 39), rgb(17, 17, 17));
+            /* Inner and outer shadows for depth */
+            box-shadow: inset 0.1em 0.1em 0.2em rgba(255, 255, 255, 0.2),
+                        inset -0.1em -0.1em 0.2em rgba(0, 0, 0, 0.9),
+                        0.1em 0.1em 2em rgba(0, 0, 0, 1);
+            display: grid;
+            border-radius: 1em;
+            gap: 2em;
+            padding: 2em;
+        }
+        .domino::before {
+            content: "";
+            height: 0.25em;
+            background: white;
+            grid-row: 2; /* Places the line between the two parts */
+            border-radius: 0.25em;
+        }
+        .domino .part {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for dots */
+            gap: 1em;
+        }
+
+        .part span {
+            aspect-ratio: 1/1; /* Makes dots perfectly circular */
+            width: 100%;
+            border-radius: 50%;
+            /* Inner shadows for debossed effect */
+            box-shadow: inset 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.7),
+                        inset -0.1em -0.1em 0.1em rgba(250, 250, 250, 0.1);
+            /* Gradient for the "active" visual effect */
+            background-image: linear-gradient(
+                transparent 50%,
+                rgba(180, 180, 180, 0.2) 50%
+            );
+            background-size: 100% 220%; /* Allows shifting background to reveal gradient */
+            background-position: 0 0%;
+            transition: background-position 0.25s ease; /* Smooth transition for active state */
+        }
+
+        .part span.active {
+            background-position: 0 -90%; /* Shifts background to make the dot appear "lit" */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main heading for the clock -->
+    <h1>Domino Clock <span class="time">0:00:00 PM</span></h1>
+
+    <!-- Container for the domino elements and colons -->
+    <div class="dominos-container">
+        <!-- Domino for Hours (tens and units combined) -->
+        <div class="domino">
+            <div class="part part-top">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+            <div class="part part-bottom">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="colon">:</div> <!-- Colon separator -->
+
+        <!-- Domino for Minutes (tens digit) -->
+        <div class="domino">
+            <div class="part part-top">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+            <div class="part part-bottom">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Domino for Minutes (units digit) -->
+        <div class="domino">
+            <div class="part part-top">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+            <div class="part part-bottom">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="colon">:</div> <!-- Colon separator -->
+
+        <!-- Domino for Seconds (tens digit) -->
+        <div class="domino">
+            <div class="part part-top">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+            <div class="part part-bottom">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Domino for Seconds (units digit) -->
+        <div class="domino">
+            <div class="part part-top">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+            <div class="part part-bottom">
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="ampm">AM</div> <!-- AM/PM indicator -->
+    </div>
+
+    <script>
+        // JavaScript logic for the Domino Clock
+        // This array defines the dot patterns for numbers 0-12
+        // Each inner array represents a number, with 1 for an active dot and 0 for an inactive dot.
+        // The 18 elements correspond to the 9 dots in the top part and 9 dots in the bottom part of a domino.
+        const numberdots = [
+            // 0
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            // 1
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            // 2
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            // 3
+            [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            // 4
+            [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            // 5
+            [1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            // 6
+            [1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+            // 7
+            [1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+            // 8
+            [1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            // 9
+            [1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            // 10 (Example, adjust if needed for specific hour display)
+            [1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            // 11 (Example, adjust if needed for specific hour display)
+            [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            // 12 (Example, adjust if needed for specific hour display)
+            [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1]
+        ];
+
+        // Select all domino elements, the AM/PM display, and the digital time display
+        const dominos = document.querySelectorAll(".domino");
+        const ampm_el = document.querySelector(".ampm");
+        const time_el = document.querySelector(".time");
+
+        // Initial call to set the clock immediately on load
+        intfunc();
+        // Set an interval to update the clock every second
+        const interval = setInterval(intfunc, 1000);
+
+        /**
+         * Updates the domino clock and digital time display.
+         * This function is called every second by the setInterval.
+         */
+        function intfunc() {
+            // Get the current time values formatted for domino display, AM/PM, and digital time
+            const [values, ampm, time] = getValues();
+
+            // Iterate through each domino element
+            dominos.forEach((domino, domino_index) => {
+                // Select all dot spans within the current domino's parts
+                const dots = domino.querySelectorAll(".part > span"); // Corrected selector to target spans directly
+
+                // Iterate through each dot
+                dots.forEach((dot, dot_index) => {
+                    // Check the numberdots array for the current domino's value and dot's position
+                    // If the value is 1, add 'active' class; otherwise, remove it.
+                    if (numberdots[values[domino_index]] && numberdots[values[domino_index]][dot_index]) {
+                        dot.classList.add("active");
+                    } else {
+                        dot.classList.remove("active");
+                    }
+                });
+            });
+
+            // Update the AM/PM display and the digital time display
+            ampm_el.innerText = ampm;
+            time_el.innerText = time;
+        }
+
+        /**
+         * Retrieves the current time and formats it for the domino clock display.
+         * @returns {Array} An array containing:
+         * - An array of numerical values for each domino (hours, minutes tens, minutes units, seconds tens, seconds units).
+         * - The AM/PM string ("am" or "pm").
+         * - The full localized time string.
+         */
+        function getValues() {
+            const d = new Date();
+            const h = d.getHours(); // 24-hour format
+            const minutes = d.getMinutes();
+            const seconds = d.getSeconds();
+
+            const ampm = h >= 12 ? "PM" : "AM"; // Changed to uppercase PM/AM for display consistency
+            const hours = h % 12 || 12; // Convert 24-hour to 12-hour format, with 0 becoming 12
+
+            // Calculate tens and units digits for minutes and seconds
+            const minutesLeft = Math.floor(minutes / 10);
+            const minutesRight = minutes % 10;
+            const secondsLeft = Math.floor(seconds / 10);
+            const secondsRight = seconds % 10;
+
+            // Get the localized time string (e.g., "9:17:00 AM")
+            const time = d.toLocaleTimeString("en-us");
+
+            // Return the values in an array
+            return [
+                [hours, minutesLeft, minutesRight, secondsLeft, secondsRight], // Values for each domino
+                ampm, // AM/PM string
+                time // Full digital time string
+            ];
+        }
+
+        if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => {
+            console.log('Service Worker registered:', reg.scope);
+            })
+            .catch(err => {
+            console.log('Service Worker registration failed:', err);
+            });
+        });
+    }
+    </script>
+</body>
+</html>
