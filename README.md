@@ -69,7 +69,7 @@ A visually dynamic, responsive digital clock designed to mimic the appearance of
 
 ## 🌐 Website
 
-[\🚀 View Live Domino Clock](https://dominoclock.netlify.app/)
+[🚀 View Live Domino Clock](https://dominoclock.netlify.app/)
 
 ---
 
