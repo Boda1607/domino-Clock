@@ -15,6 +15,8 @@ A visually dynamic, responsive digital clock designed to mimic the appearance of
 ---
 
 ## 📁 Project Structure
+
+```bash
 .
 ├── index.html                  // Main HTML page
 ├── images/
@@ -22,8 +24,7 @@ A visually dynamic, responsive digital clock designed to mimic the appearance of
 ├── favicon.ico                 // Site favicon
 ├── manifest.json               // PWA manifest file
 └── service-worker.js           // Enables offline support
-
----
+```
 
 ## 🚀 How to Run
 
