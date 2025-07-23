@@ -62,7 +62,7 @@ A visually dynamic, responsive digital clock designed to mimic the appearance of
 
 ## 📸 Preview
 
-*(Add your preview image/GIF here)*
+![Domino Clock Screenshot](https://github.com/Boda1607/domino-Clock/blob/main/clock/Screenshot%202025-07-23.png?raw=true)
 
 ---
 
